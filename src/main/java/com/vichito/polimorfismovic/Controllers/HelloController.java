@@ -1,4 +1,4 @@
-package com.vichito.polimorfismovic;
+package com.vichito.polimorfismovic.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
