@@ -22,7 +22,7 @@ public class dBasedata implements ICRUD{
         }
     }
 
-       public void ImprimirEstudiantes(){
+       public void imprimirEstudiantes(){
            System.out.println("Estudiantes en dBasedata:");
             for (Estudiante o : estudiantes1){
                 System.out.println(o);

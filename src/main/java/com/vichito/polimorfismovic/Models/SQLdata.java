@@ -21,7 +21,7 @@ public class SQLdata implements ICRUD{
         }
     }
 
-        public void printEstudiantes() {
+        public void imprimirEstudiantes() {
             System.out.println("Estudiantes en SQLdata:");
             for (Estudiante o : estudiantes3){
                 System.out.println(o);
