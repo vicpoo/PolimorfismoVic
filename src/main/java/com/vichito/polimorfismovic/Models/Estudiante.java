@@ -52,16 +52,18 @@ public class Estudiante {
     }
 
 
-    @Override
     public boolean equals(Object o) {
-     if (this == o) return true;
-     if (o == null || getClass() != o.getClass()) return false;
+     if (this == o) {
+         return true;
+     }else if (o == null && getClass() != o.getClass()){
      Estudiante estudiante = (Estudiante) o;
-     return matricula == estudiante.matricula && Objects.equals(nombre, estudiante.nombre ) && Objects.equals(apellido , estudiante.apellido);
-    }
+     return this.matricula == estudiante.matricula && Objects.equals(this.nombre, estudiante.nombre ) && Objects.equals(this.apellido , estudiante.apellido);
+    } else {
+         return false;
+     }
+     }
 
-    @Override
-    public int hashCode(){ return Objects.hash(nombre,apellido,matricula);}
+    public int hashCode(){ return Objects.hash(new Object[]{this.nombre,this.apellido,this.matricula});}
 
     @Override
     public String toString(){

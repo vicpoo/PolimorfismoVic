@@ -1,35 +1,47 @@
 package com.vichito.polimorfismovic.Models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SQLdata implements ICRUD{
 
     private ArrayList<Estudiante> estudiantes3 = new ArrayList<>();
 
-    @Override
-        public void saveEstudiante(Estudiante estudiante) {estudiantes3.add(estudiante);}
+    public SQLdata(){
+    }
 
 
-    @Override
+    public void saveEstudiante(Estudiante estudiante) {this.estudiantes3.add(estudiante);}
+
+
+
     public void updateEstudiante(Estudiante estudiante) {
-        for (Estudiante e : estudiantes3){
-            if (e.getMatricula() == estudiante.getMatricula()){
-                e.setNombre(estudiante.getNombre());
-                e.setApellido(estudiante.getApellido());
+        Iterator var2 = this.estudiantes3.iterator();
+
+        Estudiante i;
+        do {
+            if (!var2.hasNext()) {
                 return;
             }
-        }
+            i= (Estudiante)var2.next();
+        } while (i.getMatricula() != estudiante.getMatricula());
+
+        i.setNombre(estudiante.getNombre());
+        i.setApellido(estudiante.getApellido());
+
     }
 
         public void imprimirEstudiantes() {
-            System.out.println("Estudiantes en SQLdata:");
-            for (Estudiante o : estudiantes3){
+            System.out.println("Estudintes en SQLdata");
+            Iterator var1 = this.estudiantes3.iterator();
+
+            while (var1.hasNext()){
+                Estudiante o = (Estudiante) var1.next();
                 System.out.println(o);
             }
         }
 
 
-        @Override
     public ArrayList<Estudiante> getEstudiante(){ return new ArrayList<>(estudiantes3);}
 
 }
