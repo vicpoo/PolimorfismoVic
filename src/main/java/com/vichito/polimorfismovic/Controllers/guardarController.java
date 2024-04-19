@@ -1,6 +1,12 @@
 package com.vichito.polimorfismovic.Controllers;
 
-import com.vichito.polimorfismovic.Models.*;
+import com.vichito.polimorfismovic.Models.SQLdata;
+import com.vichito.polimorfismovic.Models.Oracledata;
+import com.vichito.polimorfismovic.Models.dBasedata;
+
+import com.vichito.polimorfismovic.Models.ICRUD;
+import com.vichito.polimorfismovic.Models.Estudiante;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class guardarController {
 
@@ -27,15 +34,17 @@ public class guardarController {
     @FXML
     private TextField NombreTxt;
 
-
     private Estudiante estudiante;
     private ArrayList<ICRUD> basesDatos;
 
+    public guardarController(){
+    }
+
     public void initialize() {
-        basesDatos = new ArrayList<>();
-        basesDatos.add(new dBasedata());
-        basesDatos.add(new Oracledata());
-        basesDatos.add(new SQLdata());
+        this.basesDatos = new ArrayList<>();
+        this.basesDatos.add(new dBasedata());
+        this.basesDatos.add(new Oracledata());
+        this.basesDatos.add(new SQLdata());
     }
 
     public void initAtributos(Estudiante estudiante) {
@@ -62,38 +71,51 @@ public class guardarController {
 
             boolean existe = false;
 
-            for (ICRUD database : basesDatos) {
-                if (database.getEstudiante().contains(nuevoEstudiante)) {
+            Iterator var6 = this.basesDatos.iterator();
+
+            ICRUD baseDato;
+
+            while (var6.hasNext()) {
+                baseDato = (ICRUD) var6.next();
+                if (baseDato.getEstudiante().contains(nuevoEstudiante)) {
                     existe = true;
                     break;
                 }
             }
+
             if (!existe) {
-                if (estudiante != null) {
-                    estudiante.setNombre(nombre);
-                    estudiante.setEdad(edad);
-                    estudiante.setMatricula(matricula);
-                    estudiante.setApellido(apellido);
-                    for (ICRUD database : basesDatos) {
-                        database.saveEstudiante(estudiante);
+                if (this.estudiante != null) {
+                    this.estudiante.setNombre(nombre);
+                    this.estudiante.setApellido(apellido);
+                    this.estudiante.setMatricula(matricula);
+                    this.estudiante.setEdad(edad);
+                    var6 = this.basesDatos.iterator();
+
+                    while (var6.hasNext()) {
+                        baseDato = (ICRUD) var6.next();
+                        baseDato.saveEstudiante(this.estudiante);
                     }
                 } else {
-                    estudiante = nuevoEstudiante;
-                    for (ICRUD database : basesDatos) {
-                        database.saveEstudiante(estudiante);
+                    this.estudiante = nuevoEstudiante;
+                    var6 = this.basesDatos.iterator();
+
+                    while (var6.hasNext()) {
+                        baseDato = (ICRUD) var6.next();
+                        baseDato.saveEstudiante(this.estudiante);
                     }
                 }
-                cerrar();
+                this.cerrar();
             } else {
-                mostrarAlerta("El Estudiante ya existe en alguna base de datos");
+        this.mostrarAlerta("Estudiante ya existe");
             }
-        } catch (NumberFormatException e){
-            mostrarAlerta("La matricula debe de ser un numero entero");
+        } catch (NumberFormatException var10) {
+                    this.mostrarAlerta("La matricula debe de ser entero");
         }
     }
 
+
     private void cerrar() {
-        Stage stage = (Stage) AgregarButton.getScene().getWindow();
+        Stage stage = (Stage) this.AgregarButton.getScene().getWindow();
         stage.close();
     }
 
